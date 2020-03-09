@@ -1,0 +1,164 @@
+// 登录页
+<template>
+  <div class="login">
+    <!-- 粒子效果 -->
+    <vue-particles
+      color="#BACAD9"
+      :particleOpacity="0.7"
+      :particlesNumber="30"
+      shapeType="circle"
+      :particleSize="4"
+      linesColor="#BACAD9"
+      :linesWidth="1"
+      :lineLinked="true"
+      :lineOpacity="0.4"
+      :linesDistance="200"
+      :moveSpeed="2"
+      :hoverEffect="true"
+      hoverMode="grab"
+      :clickEffect="true"
+      clickMode="push"
+      class="lizi"
+    >
+    </vue-particles>
+    <!-- 主体内容 -->
+    <div class="main_box">
+      <!-- 公司logo及名称 -->
+      <div class="companyInfo">
+        <!-- <img src="../assets/img/login_logo.png" alt=""> -->
+        <p>资产云</p>
+      </div>
+      <!-- 表单部分 -->
+      <div class="formBox">
+        <!--用户登录-->
+        <el-form :model="ruleFormLogin" label-position="left" label-width="0px" class="loginForm">
+          <!-- <h3 class="title">账户密码登录</h3> -->
+          <el-form-item prop="username">
+            <el-input prefix-icon="el-icon-user" type="text" v-model="ruleFormLogin.username" auto-complete="off" placeholder="请输入账号"></el-input>
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input prefix-icon="el-icon-lock" type="password" v-model="ruleFormLogin.password" placeholder="请输入密码"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" class="submit_btn" round  :loading="logining">登录</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+// // 引入工具类
+// import utils from '@/libs/utils'
+// // 引入api
+// import api from '@/api/index'
+export default {
+  // name: 'login',
+  data () {
+    return {
+      logining: false, // 确定按键--加载效果
+      // 用户登录
+      ruleFormLogin: {
+        username: '',
+        password: ''
+      }
+    }
+  },
+  created () {
+  },
+  methods: {
+    /**
+     * 操作函数
+     */
+    // 用户登录
+
+  }
+}
+</script>
+<style lang="scss" scoped>
+  .login{
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    .lizi {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      background: #5A8ACC;
+      z-index: 1;
+    }
+    .main_box {
+      position: absolute;
+      width: 368px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      // top: 100px;
+      // transform: translateX(-50%);
+      z-index: 2;
+      .companyInfo {
+        img {
+          display: block;
+          width: 240px;
+          margin: 0 auto;
+        }
+        p {
+          font-size: 18px;
+          // font-weight: bold;
+          text-align: center;
+          line-height: 1;
+          margin-top: 26px;
+        }
+      }
+      .formBox{
+        margin-top: 56px;
+        .loginForm {
+          
+        }
+        .title {
+          font-size: 16px;
+          line-height: 40px;
+          font-weight: lighter;
+          color: #43A5DE;
+          text-align: center;
+          margin-bottom: 10px;
+        }
+        .submit_btn {
+          width: 100%;
+          background-color: #333C6A;
+          margin-top: 20px;
+        }
+      }
+      
+    }
+    
+  }
+  @media screen and (max-height: 750px){
+    .login{
+      .main_box {
+        top: 10vh;
+        transform: translate(-50%, 0);
+      }
+    }
+  }
+  @media screen and (max-height: 650px){
+    .login{
+      .main_box {
+        top: 6vh;
+      }
+    }
+  }
+  @media screen and (max-height: 600px){
+    .login{
+      .main_box {
+        top: 5vh;
+        .formBox{
+          margin-top: 5vh;
+        }
+      }
+    }
+  }
+</style>
+
