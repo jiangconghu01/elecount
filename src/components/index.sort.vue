@@ -3,7 +3,7 @@
     <div class="title">
       <div class="text"><span>排行榜</span></div>
       <div class="icon">
-        <img src="../assets/images/top_nav4.png" alt="">
+        <img src="../assets/images/top_nav4.png" alt="" />
       </div>
     </div>
     <div class="button">
@@ -18,7 +18,22 @@
         <li>累计时长</li>
       </ul>
       <ul class="list-data">
-        <li></li>
+        <li>
+          <span class="number">
+            <img src="../assets/images/sort1.png" alt="" />
+          </span>
+          <span class="text">总有机炭仪器分析仪</span>
+          <span class="text">杭州电子科技大学材料工程学院</span>
+          <span class="text">50000小时</span>
+        </li>
+        <li>
+          <span class="number">
+            4
+          </span>
+          <span class="text">总有机炭仪器分析仪</span>
+          <span class="text">杭州电子科技大学材料工程学院</span>
+          <span class="text">50000小时</span>
+        </li>
       </ul>
     </div>
   </div>
@@ -40,29 +55,29 @@ export default {
   }
   .title {
     height: 140px;
-    display:flex;
-    &>div{
+    display: flex;
+    & > div {
       height: 160px;
       height: 100%;
       width: 48%;
       position: relative;
     }
-    .text{
+    .text {
       font-size: 20px;
-      span{
-        position:absolute;
-        top:50%;
+      span {
+        position: absolute;
+        top: 50%;
         transform: translateY(-50%);
         right: 15%;
       }
     }
-    img{
+    img {
       width: 80px;
       height: 80px;
-      position:absolute;
-      top:50%;
+      position: absolute;
+      top: 50%;
       transform: translateY(-50%);
-      left:15%;
+      left: 15%;
     }
   }
   .button {
@@ -70,28 +85,27 @@ export default {
     & > div {
       height: 100%;
       cursor: pointer;
-      background: #DEE0E2;
+      background: #dee0e2;
     }
     .most {
-
       width: 50%;
     }
     .least {
       flex: 1;
     }
-    .current{
-      background-color: rgba(44, 129, 221,0.8);
+    .current {
+      background-color: rgba(44, 129, 221, 0.8);
     }
     height: 30px;
     line-height: 30px;
   }
-  .sort-list{
-    ul{
+  .sort-list {
+    .list-title {
       display: flex;
       list-style: none;
-      
-      color:rgba(44, 129, 221,0.8);
-      li{
+
+      color: rgba(44, 129, 221, 0.8);
+      li {
         flex: 1;
         height: 35px;
         line-height: 35px;
@@ -99,8 +113,27 @@ export default {
       }
     }
   }
-  .list-data{
-    background-color:#F6FAFD;
+  .list-data {
+    font-size: 12px;
+    li:nth-child(2n-1) {
+      background-color: #eee;
+    }
+    li {
+      display: flex;
+      align-items: center;
+      min-height: 38px;
+
+      img {
+        width: 38px;
+        height: 38px;
+      }
+      .number {
+        flex: 1;
+      }
+      .text {
+        flex: 1;
+      }
+    }
   }
 }
 </style>
