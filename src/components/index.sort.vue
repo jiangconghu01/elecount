@@ -1,12 +1,25 @@
 <template>
   <div class="user-sort">
     <div class="title">
-      <div class="text">排行榜</div>
-      <div class="icon"></div>
+      <div class="text"><span>排行榜</span></div>
+      <div class="icon">
+        <img src="../assets/images/top_nav4.png" alt="">
+      </div>
     </div>
     <div class="button">
-      <div class="most"></div>
-      <div class="least"></div>
+      <div class="most current">使用最多</div>
+      <div class="least">使用最少</div>
+    </div>
+    <div class="sort-list">
+      <ul class="list-title">
+        <li>序号</li>
+        <li>资产</li>
+        <li>管理部门</li>
+        <li>累计时长</li>
+      </ul>
+      <ul class="list-data">
+        <li></li>
+      </ul>
     </div>
   </div>
 </template>
@@ -26,22 +39,68 @@ export default {
     background-color: #fff;
   }
   .title {
-    height: 160px;
+    height: 140px;
+    display:flex;
+    &>div{
+      height: 160px;
+      height: 100%;
+      width: 48%;
+      position: relative;
+    }
+    .text{
+      font-size: 20px;
+      span{
+        position:absolute;
+        top:50%;
+        transform: translateY(-50%);
+        right: 15%;
+      }
+    }
+    img{
+      width: 80px;
+      height: 80px;
+      position:absolute;
+      top:50%;
+      transform: translateY(-50%);
+      left:15%;
+    }
   }
   .button {
     display: flex;
     & > div {
       height: 100%;
       cursor: pointer;
+      background: #DEE0E2;
     }
     .most {
-      background-color: #2c81dd;
+
       width: 50%;
     }
     .least {
       flex: 1;
     }
+    .current{
+      background-color: rgba(44, 129, 221,0.8);
+    }
     height: 30px;
+    line-height: 30px;
+  }
+  .sort-list{
+    ul{
+      display: flex;
+      list-style: none;
+      
+      color:rgba(44, 129, 221,0.8);
+      li{
+        flex: 1;
+        height: 35px;
+        line-height: 35px;
+        font-weight: bold;
+      }
+    }
+  }
+  .list-data{
+    background-color:#F6FAFD;
   }
 }
 </style>

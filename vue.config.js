@@ -27,7 +27,7 @@ module.exports = {
     open: true, //配置自动启动浏
     proxy: {
         '/api': {
-          target: 'http://yapi.thingcom.com/mock/11',
+          target: 'http://galv.test.thingcom.com',
           changeOrigin: true,
           secure: false
         }

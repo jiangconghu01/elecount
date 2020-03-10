@@ -67,10 +67,7 @@ export default {
   created () {
   },
   methods: {
-    /**
-     * 操作函数
-     */
-    // 用户登录
+   
 
   }
 }

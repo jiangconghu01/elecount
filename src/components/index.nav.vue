@@ -12,7 +12,7 @@
       <el-menu-item index="1" class="log">
         <span slot="title">资产设备管理平台</span>
       </el-menu-item>
-      <el-menu-item index="2" style="padding-left:30px;">
+      <el-menu-item index="2" style="padding-left:30px;" @click="toHome()">
         <i
           class="icon"
           :style="
@@ -23,7 +23,7 @@
         ></i>
         <span slot="title">首页</span>
       </el-menu-item>
-      <el-menu-item index="3" style="padding-left:30px;">
+      <el-menu-item index="3" style="padding-left:30px;" @click="toProperty()">
         <i
           class="icon"
           :style="
@@ -42,7 +42,13 @@
 export default {
   methods: {
     handleOpen() {},
-    handleClose() {}
+    handleClose() {},
+    toHome(){
+      this.$router.push('/index/detail')
+    },
+    toProperty(){
+      this.$router.push('/index/property')
+    }
   }
 };
 </script>
