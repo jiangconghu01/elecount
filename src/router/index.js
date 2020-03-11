@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/home.vue";
+import utils from '../util/util.js';
 
 Vue.use(VueRouter);
-
 const routes = [
   {
     path: "/",
@@ -33,9 +33,6 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/login.vue")
   }
@@ -46,5 +43,18 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
-
+router.beforeEach((to, from, next) => {
+  let userId = utils.sessionGetStore('userId')
+  if (userId && userId !== '') {
+    next()
+  } else {
+    if (to.path.indexOf('login') !== -1) {
+      next()
+    } else {
+      next({
+        path: '/login'
+      })
+    }
+  }
+})
 export default router;

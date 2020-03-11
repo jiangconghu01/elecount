@@ -40,7 +40,7 @@
             <el-input prefix-icon="el-icon-lock" type="password" v-model="ruleFormLogin.password" placeholder="请输入密码"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" class="submit_btn" round  :loading="logining">登录</el-button>
+            <el-button type="primary" class="submit_btn" round @click="userLandBt">登录</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -48,16 +48,11 @@
   </div>
 </template>
 <script>
-// // 引入工具类
-// import utils from '@/libs/utils'
-// // 引入api
-// import api from '@/api/index'
+import utils from '../util/util.js';
 export default {
-  // name: 'login',
+  name: 'login',
   data () {
     return {
-      logining: false, // 确定按键--加载效果
-      // 用户登录
       ruleFormLogin: {
         username: '',
         password: ''
@@ -67,8 +62,49 @@ export default {
   created () {
   },
   methods: {
-   
-
+    userLandBt: function () {
+      if (!this.ruleFormLogin.username || this.ruleFormLogin.username === '') {
+        this.$notify({
+          title: '提示',
+          message: '请输入用户名',
+          type: 'warning'
+        });
+        return
+      }
+      if (!this.ruleFormLogin.password || this.ruleFormLogin.password === '') {
+        this.$notify({
+          title: '提示',
+          message: '请输入密码',
+          type: 'warning'
+        });
+        return
+      }
+      let paramObj = { 
+        account: this.ruleFormLogin.username, 
+        password: this.ruleFormLogin.password 
+      }
+      // 登录
+      this.loginFunc(paramObj)
+    },
+    loginFunc (paramObj) {
+      this.$http.post('/api/user/login',paramObj).then(res => {
+          const response = res.data;
+          utils.sessionSetStore('nickname', response.data.name)
+          utils.sessionSetStore('roleId', response.data.roleId)
+          utils.sessionSetStore('userId', response.data.id)
+          utils.sessionSetStore('account', paramObj.account)
+          utils.sessionSetStore('password', paramObj.password)
+          this.$router.push({
+            path: '/index'
+          })
+      }).catch(function (err) {
+          this.$notify({
+            title: '错误提示',
+            message: '用户名或密码错误，请重新登录',
+            type: 'error'
+          });
+      })
+    }
   }
 }
 </script>
@@ -158,4 +194,3 @@ export default {
     }
   }
 </style>
-

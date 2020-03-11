@@ -104,9 +104,9 @@
             :total="totalNum">
           </el-pagination>
     </div>
-    <el-dialog title="" :visible.sync="dialogFormVisible">
+    <el-dialog title="" :visible.sync="dialogFormVisible" width="68%">
       <div class="dialog-title">
-        <div class="dialog-nav">
+        <div class="dialog-nav"  v-show="dialogCurrent != 'big-page'">
           <div class="worth-detail" :class="{current:dialogCurrent == 'detail'}" @click="handleSelectDetail">资产详情</div>
           <div class="run-data" :class="{current:dialogCurrent == 'rundata'}" @click="handleSelectRunda">运行数据</div>
         </div>
@@ -114,7 +114,7 @@
           分页大图
         </div>
       </div>
-      <component :is="currentComponent" :rowdata="currentRow"></component>
+      <component :is="currentComponent" :rowdata="currentRow" :charttype="bigtype" @handleClick="changeType"></component>
     </el-dialog>
   </div>
 </template>
@@ -122,6 +122,7 @@
 <script>
 import worthDetail from '@/components/property.detail.vue';
 import worthRundata from '@/components/property.rundata.vue';
+import bigChart from '@/components/property.bigpage.vue';
 export default {
   data() {
     return {
@@ -145,6 +146,7 @@ export default {
       currentPage:1,
       pageSize:20,
       dialogCurrent:'detail',
+      bigtype:'',
       currentRow:{}
     };
   },
@@ -153,7 +155,8 @@ export default {
   },
   components: {
     worthDetail,
-    worthRundata
+    worthRundata,
+    bigChart
   },
 
   computed: {
@@ -193,7 +196,8 @@ export default {
     handleEdit(index, row) {
       this.dialogFormVisible = true;
       this.currentRow = row;
-      console.log(index, row);
+      this.dialogCurrent = 'detail';
+      this.currentComponent = 'worthDetail';
     },
     handleRun(index, row) {
       console.log(index, row);
@@ -205,6 +209,11 @@ export default {
     handleSelectRunda() {
       this.dialogCurrent = 'rundata';
       this.currentComponent = 'worthRundata';
+    },
+    changeType(val){
+      this.bigtype = val;
+      this.dialogCurrent = 'bigpage';
+      this.currentComponent = 'bigChart';
     }
 
   }
@@ -251,6 +260,11 @@ export default {
     .current{
       color:#fff;
     }
+  }
+  .big-page{
+    height: 36px;
+    line-height: 36px;
+    color:#fff;
   }
 
 }

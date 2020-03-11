@@ -49,4 +49,42 @@ const http = {
   }
 }
 const axiosUtil = axios;
-export {http,axiosUtil} 
+/**
+ * 存储sessionStorage
+ */
+function sessionSetStore(name, content) {
+  if (!name) return;
+  if (typeof content !== "string") {
+    content = JSON.stringify(content);
+  }
+  window.sessionStorage.setItem(name, content);
+}
+/**
+ * 获取sessionStorage
+ */
+function sessionGetStore(name) {
+  if (!name) return;
+  return window.sessionStorage.getItem(name);
+}
+/**
+ * 删除sessionStorage
+ */
+function sessionRemoveStore(name) {
+  if (!name) return;
+  window.sessionStorage.removeItem(name);
+}
+/**
+ * 删除所有sessionStorage
+ */
+function sessionClearStore() {
+  window.sessionStorage.clear();
+}
+const u ={ 
+  http,
+  axiosUtil,
+  sessionClearStore,
+  sessionRemoveStore,
+  sessionGetStore,
+  sessionSetStore
+} 
+export default u;

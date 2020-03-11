@@ -17,32 +17,72 @@
             <div class="history item">
                 <div class="title">电流计历史数据</div>
                 <div class="date">
-                    <span>时间范围：</span>
-                    <el-date-picker
-                        v-model="value1"
-                        type="daterange"
-                        range-separator="至"
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期">
-                    </el-date-picker>
+                    <ul>
+                        <li>
+                            <span>开始时间:</span>
+                            <el-date-picker
+                            v-model="value1"
+                            type="datetime"
+                            placeholder="选择日期时间">
+                            </el-date-picker>
+                        </li>
+                        <li>
+                            <span>结束时间:</span>
+                            <el-date-picker
+                            v-model="value1"
+                            type="datetime"
+                            placeholder="选择日期时间">
+                            </el-date-picker>   
+                        </li>
+                    </ul>
                 </div>
                 <el-row class="buttons">
                 <el-button size="mini" type="primary">查询</el-button>
                 <el-button size="mini" type="primary">重置查询</el-button>
-                <el-button size="mini" type="primary">分页大图</el-button>
+                <el-button size="mini" type="primary"  @click="toBigpage('rundataLine')">分页大图</el-button>
                 </el-row>
-                <div class="chart">
+                <div class="chart" id="rundata_history">
 
                 </div>
             </div>
             <div class="start item">
+                <div class="title">资产开机时长统计</div>
+                <div class="date">
+                    <ul>
+                        <li>
+                            <span>开始时间:</span>
+                            <el-date-picker
+                            v-model="value1"
+                            type="datetime"
+                            placeholder="选择日期时间">
+                            </el-date-picker>
+                        </li>
+                        <li>
+                            <span>结束时间:</span>
+                            <el-date-picker
+                            v-model="value1"
+                            type="datetime"
+                            placeholder="选择日期时间">
+                            </el-date-picker>   
+                        </li>
+                    </ul>
+                </div>
+                <el-row class="buttons">
+                <el-button size="mini" type="primary">查询</el-button>
+                <el-button size="mini" type="primary">重置查询</el-button>
+                <el-button size="mini" type="primary" @click="toBigpage('startBar')">分页大图</el-button>
+                </el-row>
+                <div class="chart" id="start_time">
 
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import line_config from '../chartconfig/lines.js';
+import bar_config from '../chartconfig/bar.js';
 export default {
   props:{
     rowdata: {
@@ -52,7 +92,8 @@ export default {
   },
   data () {
     return {
-        currentRow:this.rowdata
+        currentRow:this.rowdata,
+        value1:''
     }
   },
   created(){
@@ -61,8 +102,16 @@ export default {
   computed: {    
   },
   mounted () {
+      const line_box = this.$echarts.init(document.getElementById('rundata_history'));
+      line_box.setOption(line_config);
+      const bar_box = this.$echarts.init(document.getElementById('start_time'));
+      bar_box.setOption(bar_config);
+
   },
   methods: {
+      toBigpage(param){
+          this.$emit('handleClick',param)
+      }
   }
 }
 </script>
@@ -84,10 +133,10 @@ export default {
         }
     }
     .chart-box{
-        height: 400px;
+        display: flex;
         .item{
-            width: 50%;
-            background-color: cyan;
+            width: 49%;
+            padding-left: 5px;
             .title{
                 height: 40px;
                 line-height: 40px;
@@ -96,6 +145,16 @@ export default {
             .buttons{
                 text-align: left;
             }
+            .date{
+                text-align: left;
+                margin-bottom: 5px;
+            }
+            .chart{
+                height: 250px;
+            }
+        }
+        .start{
+            margin-left: 2%;
         }
     }
 
@@ -111,5 +170,11 @@ export default {
 }
 .el-button--mini{
     padding:4px 15px;
+}
+.el-input--prefix .el-input__inner{
+    padding: 0 0 0 30px;
+}
+.el-input__icon{
+    line-height: 28px;
 }
 </style>
