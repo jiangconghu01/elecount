@@ -95,21 +95,90 @@ export default {
       this.$http
         .get("/api/statis/asset/home", { school: this.currentSchool })
         .then(d => {
-          this.ajaxData = d.data.data;
+          const source =  d.data.data
+          this.ajaxData = source;
           const status_chart_box = this.$echarts.init(
             document.getElementById("chart_bar")
           );
           status_chart_box.resize();
           status_chart_box.clear();
+          const max = source.totalNum;
+          bar_status_config.angleAxis.max = max;
+          const colors = ['#E8E5E9','#6588C5','#EA7C72','#ECD476','#E8E5E9']
+          const bar_data = [
+                {name: "", value: max},
+                {name: "待电", value: source.waitNum},
+                {name: "断电", value: source.stopNum},
+                {name: "运行", value: source.waitNum},
+                {name: "装饰", value: max},
+          ].map((val,i) => {
+              val.itemStyle = {
+                  color:colors[i]
+              }
+              i == 4 && (val.itemStyle.barWidth = 5);
+              return val;
+          });
+          bar_status_config.series[0].data = bar_data;
           status_chart_box.setOption(bar_status_config);
         });
     },
-    getDistributeData() {},
+    getDistributeData() {
+          const distribute_chart_box = this.$echarts.init(
+            document.getElementById("chart_bar")
+          );
+          distribute_chart_box.resize();
+          distribute_chart_box.clear();
+    },
     getStatisticsData() {
       this.$http
         .get("/api/statis/asset/school", { school: this.currentSchool })
         .then(d => {
-          this.ajaxData = d.data.data;
+
+          const source = d.data.data;
+          if(source.length){
+            const xaxis = source[0]['hourList'].map(val => val['hour'])
+            line_statistics_config.xAxis.data = xaxis;
+            
+            const colors = ["#FFB43F","#1058E6", "#EC511A"];
+            const series = [];
+            source.forEach((ele,index) => { 
+              const seriesdata = {
+                type: "line",
+                data: ele['hourList'].map(val => val['num']),
+                // name:"school",
+                symbol: "circle",
+                symbolSize: 5,
+                areaStyle: {
+                  normal: {
+                    color: new this.$echarts.graphic.LinearGradient(
+                      0,
+                      0,
+                      0,
+                      1,
+                      [
+                        {
+                          offset: 0,
+                          color:colors[index%3]
+                        },
+                        {
+                          offset: 0.8,
+                          color: "#fff"
+                        }
+                      ],
+                      false
+                    ),
+                    shadowColor: "rgba(200, 200, 200, 0.1)",
+                    shadowBlur: 10
+                  }
+                }
+              }
+              series.push(seriesdata)
+            });
+            
+            console.log(series);
+            line_statistics_config.series = series;
+          }
+          
           this.$nextTick(() => {
             const statistics_chart_box = this.$echarts.init(
               document.getElementById("chart_bar")
@@ -123,7 +192,7 @@ export default {
   },
   mounted() {},
   watch: {
-    isCurrent(n, o) {
+    isCurrent(n) {
       n == "status" && this.getStatusData();
       n == "distribute" && this.getDistributeData();
       n == "statistics" && this.getStatisticsData();

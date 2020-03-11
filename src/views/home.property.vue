@@ -3,53 +3,53 @@
     <div class="form">
       <el-form
         :inline="true"
-        :model="formInline"
+        :model="formInput"
         class="form-inline"
         label-width="70px"
         size="mini"
       >
         <el-form-item label="大仪编码">
-          <el-input v-model="formInline.user" placeholder="大仪编码"></el-input>
+          <el-input v-model="formInput.gs1Code" placeholder="大仪编码"></el-input>
         </el-form-item>
         <el-form-item label="资产编码">
-          <el-input v-model="formInline.user" placeholder="大仪编码"></el-input>
+          <el-input v-model="formInput.assetId" placeholder="大仪编码"></el-input>
         </el-form-item>
         <el-form-item label="资产名称">
-          <el-input v-model="formInline.user" placeholder="大仪编码"></el-input>
+          <el-input v-model="formInput.name" placeholder="大仪编码"></el-input>
         </el-form-item>
         <el-form-item label="IMEI编码">
-          <el-input v-model="formInline.user" placeholder="大仪编码"></el-input>
+          <el-input v-model="formInput.imei" placeholder="大仪编码"></el-input>
         </el-form-item>
       </el-form>
       <el-form
         :inline="true"
-        :model="formInline2"
+        :model="formSelect"
         class="form-inline"
         label-width="70px"
         size="mini"
       >
         <el-form-item label="场地">
-          <el-select v-model="formInline.region" placeholder="产地">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+          <el-select v-model="formSelect.site" placeholder="产地">
+            <el-option label="区域一" value="0"></el-option>
+            <el-option label="区域二" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="运动状态">
-          <el-select v-model="formInline.region" placeholder="产地">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+          <el-select v-model="formSelect.isStart" placeholder="运动状态">
+            <el-option label="关机" value="0"></el-option>
+            <el-option label="开机" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="在线状态">
-          <el-select v-model="formInline.region" placeholder="产地">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+          <el-select v-model="formSelect.isOnline" placeholder="在线状态">
+            <el-option label="离线" value="0"></el-option>
+            <el-option label="在线" value="1"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="场地">
-          <el-select v-model="formInline.region" placeholder="产地">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+        <el-form-item label="故障状态">
+          <el-select v-model="formSelect.isFault" placeholder="故障状态">
+            <el-option label="正常" value="0"></el-option>
+            <el-option label="故障" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item class="button-box">
@@ -66,105 +66,122 @@
     <div class="table">
       <el-table
         :data="tableData"
-        height="150"
-        style="width: 100%"
+        height="450"
+        style="width: 100%" 
+        size = "mini"
         :row-class-name="tableRowClassName"
       >
-        <el-table-column prop="date" label="日期" width="180">
+        <el-table-column prop="name" label="资产名称"></el-table-column>
+        <el-table-column prop="assetId" label="编码信息"></el-table-column>
+        <el-table-column prop="department" label="管理部门"></el-table-column>
+        <el-table-column prop="address" label="资产地址"></el-table-column>
+        <el-table-column prop="worth" label="资产价值" min-width="120"></el-table-column>
+        <el-table-column prop="isOnline" label="运行监控">
         </el-table-column>
-        <el-table-column prop="name" label="姓名" width="180">
+        <el-table-column prop="isFault" label="故障状态" min-width="80">
         </el-table-column>
-        <el-table-column prop="address" label="地址"> </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" min-width="160">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+            <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)"
               >详情</el-button
             >
             <el-button
               size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
+              type="primary"
+              @click="handleRun(scope.$index, scope.row)"
               >巡检</el-button
             >
           </template>
         </el-table-column>
       </el-table>
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="[10, 20, 30, 40,50]"
+            :page-size="20"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalNum">
+          </el-pagination>
     </div>
-    <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="活动名称" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="活动区域" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false"
-          >确 定</el-button
-        >
+    <el-dialog title="" :visible.sync="dialogFormVisible">
+      <div class="dialog-title">
+        <div class="dialog-nav">
+          <div class="worth-detail" :class="{current:dialogCurrent == 'detail'}" @click="handleSelectDetail">资产详情</div>
+          <div class="run-data" :class="{current:dialogCurrent == 'rundata'}" @click="handleSelectRunda">运行数据</div>
+        </div>
+        <div class="big-page" v-show="dialogCurrent == 'big-page'">
+          分页大图
+        </div>
       </div>
+      <component :is="currentComponent" :rowdata="currentRow"></component>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import worthDetail from '@/components/property.detail.vue';
+import worthRundata from '@/components/property.rundata.vue';
 export default {
   data() {
     return {
       dialogFormVisible: false,
-      form: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
-      },
+      currentComponent:'worthDetail',
       formLabelWidth: "120px",
-      formInline: {
-        user: ""
+      formInput: {
+        gs1Code:'',
+        assetId:'',
+        name:'',
+        imei:''
       },
-      formInline2: {
-        region: ""
+      formSelect: {
+        site:'',
+        isStart:'',
+        isOnline:'',
+        isFault:''
       },
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        }
-      ]
+      tableData: [],
+      totalNum:0,
+      currentPage:1,
+      pageSize:20,
+      dialogCurrent:'detail',
+      currentRow:{}
     };
   },
-  components: {},
+  created(){
+    this.getWorthData();
+  },
+  components: {
+    worthDetail,
+    worthRundata
+  },
 
-  computed: {},
+  computed: {
+
+  },
 
   mounted() {},
 
   methods: {
+    getWorthData(){
+      const param = {
+        pageNo:this.currentPage,
+        pageSize:this.pageSize
+      };
+      this.$http.get("/api/asset/page",{...param,...this.formInput,...this.formSelect}).then(d => {
+        const source =  d.data.data
+        this.tableData = source.records;
+        this.totalNum = source.total;
+      })
+    },
+    handleSizeChange(val) {
+      this.pageSize = val;
+      this.getWorthData();
+    },
+    handleCurrentChange(val) {
+        this.currentPage = val;
+        this.getWorthData();
+    },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2 == 0) {
         return "warning-row";
@@ -175,11 +192,21 @@ export default {
     },
     handleEdit(index, row) {
       this.dialogFormVisible = true;
+      this.currentRow = row;
       console.log(index, row);
     },
-    handleDelete(index, row) {
+    handleRun(index, row) {
       console.log(index, row);
+    },
+    handleSelectDetail() {
+      this.dialogCurrent = 'detail';
+      this.currentComponent = 'worthDetail';
+    },
+    handleSelectRunda() {
+      this.dialogCurrent = 'rundata';
+      this.currentComponent = 'worthRundata';
     }
+
   }
 };
 </script>
@@ -207,6 +234,25 @@ export default {
       }
     }
   }
+  .dialog-title{
+    background-color: #2A83D9;
+    color:rgba(255,255,255,0.5);
+  }
+  .dialog-nav{
+    display: flex;
+    width: 180px;
+    &>div{
+      width: 90px;
+      height: 36px;
+      line-height: 36px;
+      cursor: pointer;
+      font-weight:bold;
+    }
+    .current{
+      color:#fff;
+    }
+  }
+
 }
 </style>
 <style>
@@ -226,5 +272,20 @@ export default {
 .el-table th {
   background-color: #2a82db;
   color: #fff;
+}
+.el-pagination{
+  text-align: left;
+}
+.el-table .cell{
+  text-align: center;
+}
+.el-table th>.cell{
+  text-align: center;
+}
+.el-dialog__header{
+  padding: 0;
+}
+.el-dialog__headerbtn{
+  top:10px;
 }
 </style>

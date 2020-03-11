@@ -25,6 +25,7 @@ module.exports = {
   devServer: {
     port: 9000, // 端口号
     open: true, //配置自动启动浏
+    hot:true,
     proxy: {
         '/api': {
           target: 'http://galv.test.thingcom.com',
