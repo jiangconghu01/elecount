@@ -30,8 +30,8 @@
       >
         <el-form-item label="场地">
           <el-select v-model="formSelect.site" placeholder="产地">
-            <el-option label="区域一" value="0"></el-option>
-            <el-option label="区域二" value="1"></el-option>
+            <!-- <el-option label="区域一" value="0"></el-option> -->
+            <el-option v-for="(item,index) in siteArr" :label="item" :value="item" :key="index"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="运动状态">
@@ -73,13 +73,13 @@
         id="data_table"
       >
         <el-table-column prop="name" label="资产名称"></el-table-column>
-        <el-table-column prop="assetId" label="编码信息"></el-table-column>
+        <el-table-column prop="assetId" label="编码信息" :formatter="formatCodeInfor"></el-table-column>
         <el-table-column prop="department" label="管理部门"></el-table-column>
         <el-table-column prop="address" label="资产地址"></el-table-column>
         <el-table-column prop="worth" label="资产价值" min-width="120"></el-table-column>
-        <el-table-column prop="isOnline" label="运行监控">
+        <el-table-column prop="isOnline" label="运行监控" :formatter="formatRunStatus">
         </el-table-column>
-        <el-table-column prop="isFault" label="故障状态" min-width="80">
+        <el-table-column prop="isFault" label="故障状态" min-width="80" :formatter="(row)=>{return row.isFault?'故障':row.isFault == 0?'正常':'无数据'}">
         </el-table-column>
         <el-table-column label="操作" min-width="160">
           <template slot-scope="scope">
@@ -124,8 +124,7 @@
 import worthDetail from '@/components/property.detail.vue';
 import worthRundata from '@/components/property.rundata.vue';
 import bigChart from '@/components/property.bigpage.vue';
-// import FileSaver from "file-saver";
-// import XLSX from "xlsx";
+import { mapGetters } from "vuex";
 import U from '../util/util.js'
 export default {
   data() {
@@ -151,11 +150,13 @@ export default {
       pageSize:20,
       dialogCurrent:'detail',
       bigtype:'',
-      currentRow:{}
+      currentRow:{},
+      siteArr:[]
     };
   },
   created(){
     this.getWorthData();
+    this.getSiteData();
   },
   components: {
     worthDetail,
@@ -164,12 +165,34 @@ export default {
   },
 
   computed: {
-
+    ...mapGetters({
+      currentSchool: "school"
+    }),
   },
 
   mounted() {},
 
   methods: {
+    formatCodeInfor(row){
+      return `
+      资产编码：${row.assetId}
+      大仪编码：${row.gs1Code}
+      IMER编码：${row.imei}
+      `
+    },
+    formatRunStatus(row){
+      return `
+      运行状态：${row.isStart == 1 ?'开机':'关机'}
+      在线状态：${row.isOnline == 1 ? '在线':'离线'}
+      最近上报：${row.lastReportTime}
+      `
+    },
+    getSiteData(){
+      this.$http.get("/api/asset/"+this.currentSchool).then((d) => {
+          const source  = d.data.data;
+          this.siteArr = source;
+      })
+    },
     getWorthData(){
       const param = {
         pageNo:this.currentPage,
@@ -324,5 +347,8 @@ export default {
 }
 .el-dialog__headerbtn{
   top:10px;
+}
+.el-table .cell {
+  white-space: pre-line;
 }
 </style>

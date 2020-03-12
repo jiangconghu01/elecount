@@ -49,6 +49,7 @@
 </template>
 <script>
 import utils from '../util/util.js';
+import { mapMutations } from 'vuex'
 export default {
   name: 'login',
   data () {
@@ -62,6 +63,9 @@ export default {
   created () {
   },
   methods: {
+    ...mapMutations([
+      'setSchool'
+    ]),
     userLandBt: function () {
       if (!this.ruleFormLogin.username || this.ruleFormLogin.username === '') {
         this.$notify({
@@ -89,11 +93,20 @@ export default {
     loginFunc (paramObj) {
       this.$http.post('/api/user/login',paramObj).then(res => {
           const response = res.data;
+          if(response.data.roleId != 3){
+              this.$notify({
+              title: '错误提示',
+              message: '账号没有登录权限！',
+              type: 'error'
+            });
+            return;
+          }
           utils.sessionSetStore('nickname', response.data.name)
           utils.sessionSetStore('roleId', response.data.roleId)
           utils.sessionSetStore('userId', response.data.id)
           utils.sessionSetStore('account', paramObj.account)
           utils.sessionSetStore('password', paramObj.password)
+          this.setSchool(response.data.school);
           this.$router.push({
             path: '/index'
           })

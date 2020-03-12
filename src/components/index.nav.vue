@@ -46,6 +46,13 @@ export default {
       indexNav:'2'
     }
   },
+  created(){
+    const routerMap ={
+      '/index/detail':'2',
+      '/index/property':'3'
+    }
+    this.indexNav = routerMap[this.$router.history.current.path]
+  },
   methods: {
     handleOpen() {},
     handleClose() {},
@@ -62,6 +69,7 @@ export default {
     }
   },
   mounted(){
+    
   }
 };
 </script>

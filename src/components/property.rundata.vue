@@ -2,15 +2,15 @@
     <div class="page2">
         <ul class="text">
             <li>
-                <span> 电流计类型：<i>xxx</i></span>
-                <span> 电流计状态：<i>xxx</i></span>
-                <span> 资产当前电流<i>xxxx</i></span>
-                <span> 总开机时长(分)：<i>xxx</i></span>
-                <span> 昨日开机时长(分)：<i>xxxx</i></span>
+                <span> 电流计类型：<i>{{titleData.deviceType}}</i></span>
+                <span> 电流计状态：<i>{{titleData.isOnline == 1 ? '在线' : '离线'}}</i></span>
+                <span> 资产当前电流<i>{{titleData.electricValue+'/A'}}</i></span>
+                <span> 总开机时长(分)：<i>{{titleData.totalStartTime}}</i></span>
+                <span> 昨日开机时长(分)：<i>{{titleData.yesterdayStartTime}}</i></span>
             </li>
             <li>
-               <span> 近七天是否运行：<i>是</i></span> 
-               <span> 昨日非常规时间是否运行：<i>是</i></span> 
+               <span> 近七天是否运行：<i>{{titleData.isWeekStart == 1 ? '是' : '否'}}</i></span> 
+               <span> 昨日非常规时间是否运行：<i>{{titleData.isExceptStart == 1 ? '是' : '否'}}</i></span> 
             </li>
         </ul>
         <div class="chart-box">
@@ -24,7 +24,6 @@
                             v-model="begin1"
                             type="datetime" 
                             value-format="yyyy-MM-dd HH"
-                            default-value="2020-03-01 03"
                             placeholder="选择日期时间">
                             </el-date-picker>
                         </li>
@@ -148,19 +147,17 @@ export default {
       getCurrentDate(){
         var date = new Date();
         var Y = date.getFullYear() + '-';
-        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-        var D = date.getDate() + ' ';
-        var h = date.getHours();
-        // var m = date.getMinutes() + ':';
-        // var s = date.getSeconds();
-        return Y + M + D + h;
+        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        var D = (date.getDate() < 10 ? '0'+date.getDate() : date.getDate()) + ' ';
+        var h = (date.getHours() < 10 ? '0'+date.getHours() : date.getHours()) + ':';
+        var m = (date.getMinutes() < 10 ? '0'+date.getMinutes() : date.getMinutes()) + ':';
+        var s = (date.getSeconds() < 10 ? '0'+date.getSeconds() : date.getSeconds());
+        return Y+M+D+h+m+s;
       },
       getTitleData(){
         this.$http.get("/api/asset/data/"+this.currentRow.id).then((d) => {
             const source  = d.data.data;
             this.titleData = source;
-            console.log(source);
-
         })
       },
       getStartdata(){

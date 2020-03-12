@@ -1,10 +1,8 @@
 <template>
       <div class="page3">
-              <div class="page2">
-
         <div class="chart-box">
             <div class="history item">
-                <div class="title">电流计历史数据</div>
+                <div class="title">{{type == 'rundataLine' ?'电流计历史数据' : '资产开机时长统计'}}</div>
                 <div class="date">
                     <ul>
                         <li>
@@ -25,6 +23,7 @@
                             placeholder="选择日期时间">
                             </el-date-picker>   
                         </li>
+
                     </ul>
                     <el-row class="buttons">
                     <el-button size="mini" type="primary" @click="searchPageBoxdata()">查询</el-button>
@@ -36,7 +35,7 @@
                 </div>
             </div>
         </div>
-    </div>
+        
       </div>
 </template>
 
@@ -80,12 +79,12 @@ export default {
       getCurrentDate(){
         var date = new Date();
         var Y = date.getFullYear() + '-';
-        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-        var D = date.getDate() + ' ';
-        var h = date.getHours();
-        // var m = date.getMinutes() + ':';
-        // var s = date.getSeconds();
-        return Y + M + D + h;
+        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        var D = (date.getDate() < 10 ? '0'+date.getDate() : date.getDate()) + ' ';
+        var h = (date.getHours() < 10 ? '0'+date.getHours() : date.getHours()) + ':';
+        var m = (date.getMinutes() < 10 ? '0'+date.getMinutes() : date.getMinutes()) + ':';
+        var s = (date.getSeconds() < 10 ? '0'+date.getSeconds() : date.getSeconds());
+        return Y+M+D+h+m+s;
       },
       searchPageBoxdata(){
         if(this.type === 'startBar'){
@@ -169,17 +168,18 @@ export default {
                 }
             }
             .date{
+                display: flex;
                 text-align: left;
                 margin-bottom: 5px;
                 ul{
                     li{
-                        float: left;
+                        display: inline-block;
                         margin-left: 10px;
                     }
                 }
             }
             .chart{
-                height: 350px;
+                height: 380px;
             }
         }
     }
