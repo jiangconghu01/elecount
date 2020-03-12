@@ -53,23 +53,24 @@
           </el-select>
         </el-form-item>
         <el-form-item class="button-box">
-          <el-button type="primary">查询</el-button>
+          <el-button type="primary" @click="search()">查询</el-button>
         </el-form-item>
         <el-form-item class="button-box">
-          <el-button type="primary">重置查询</el-button>
+          <el-button type="primary" @click="resetSearch()">重置查询</el-button>
         </el-form-item>
         <el-form-item class="button-box">
-          <el-button type="primary">导出表格</el-button>
+          <el-button type="primary" @click="exportExcel()">导出表格</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="table">
       <el-table
         :data="tableData"
-        height="450"
+        height="500"
         style="width: 100%" 
         size = "mini"
-        :row-class-name="tableRowClassName"
+        :row-class-name="tableRowClassName" 
+        id="data_table"
       >
         <el-table-column prop="name" label="资产名称"></el-table-column>
         <el-table-column prop="assetId" label="编码信息"></el-table-column>
@@ -123,6 +124,9 @@
 import worthDetail from '@/components/property.detail.vue';
 import worthRundata from '@/components/property.rundata.vue';
 import bigChart from '@/components/property.bigpage.vue';
+// import FileSaver from "file-saver";
+// import XLSX from "xlsx";
+import U from '../util/util.js'
 export default {
   data() {
     return {
@@ -214,8 +218,27 @@ export default {
       this.bigtype = val;
       this.dialogCurrent = 'bigpage';
       this.currentComponent = 'bigChart';
+    },
+    search(){
+      this.getWorthData();
+    },
+    resetSearch(){
+      this.formInput={
+        gs1Code:'',
+        assetId:'',
+        name:'',
+        imei:''
+      }
+      this.formSelect={
+        site:'',
+        isStart:'',
+        isOnline:'',
+        isFault:''
+      }
+    },
+    exportExcel() {
+      U.xlsxExport.exportXlsx([{name:'xxx',data:this.tableData}],'表格数据')
     }
-
   }
 };
 </script>

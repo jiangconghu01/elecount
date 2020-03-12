@@ -175,7 +175,6 @@ export default {
               series.push(seriesdata)
             });
             
-            console.log(series);
             line_statistics_config.series = series;
           }
           

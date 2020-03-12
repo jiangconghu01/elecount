@@ -47,7 +47,7 @@ const option = {
             name: '新报',
             type: 'line',
             data: [800,900,220,130,660,289],
-            color: "#F58080",
+            color: "#54CDF6",
             symbol:'none',
             lineStyle: {
                 normal: {
@@ -56,109 +56,23 @@ const option = {
                         type: 'linear',
                         colorStops: [{
                             offset: 0,
-                            color: '#FFCAD4' // 0% 处的颜色
-                        }, {
-                            offset: 0.4,
-                            color: '#F58080' // 100% 处的颜色
-                        }, {
+                            color: '#54CDF6' // 0% 处的颜色
+                        },{
                             offset: 1,
-                            color: '#F58080' // 100% 处的颜色
+                            color: 'rgba(73, 208, 255, 0.9)' // 100% 处的颜色
                         }],
                         globalCoord: false // 缺省为 false
                     },
-                    shadowColor: 'rgba(245,128,128, 0.5)',
+                    shadowColor: 'rgba(73, 208, 255, 0.5)',
                     shadowBlur: 5,
                     shadowOffsetY: 7
                 }
             },
             itemStyle: {
                 normal: {
-                    color: '#F58080',
+                    color: '#54CDF6',
                     borderWidth: 3,
-                    /*shadowColor: 'rgba(72,216,191, 0.3)',
-                     shadowBlur: 100,*/
-                    borderColor: "#F58080"
-                }
-            },
-            smooth: true
-        },
-        {
-            name: '流失',
-            type: 'line',
-            data: [123,568,111,222,123,56],
-            symbol:'none',
-            lineStyle: {
-                normal: {
-                    width: 2,
-                    color: {
-                        type: 'linear',
-                        colorStops: [{
-                                offset: 0,
-                                color: '#AAF487' // 0% 处的颜色
-                            },
-                            {
-                                offset: 0.4,
-                                color: '#47D8BE' // 100% 处的颜色
-                            }, {
-                                offset: 1,
-                                color: '#47D8BE' // 100% 处的颜色
-                            }
-                        ],
-                        globalCoord: false // 缺省为 false
-                    },
-                    shadowColor: 'rgba(71,216,190, 0.5)',
-                    shadowBlur: 5,
-                    shadowOffsetY: 7
-                }
-            },
-            itemStyle: {
-                normal: {
-                    color: '#AAF487',
-                    borderWidth: 3,
-                    /*shadowColor: 'rgba(72,216,191, 0.3)',
-                     shadowBlur: 100,*/
-                    borderColor: "#AAF487"
-                }
-            },
-            smooth: true
-        },
-        {
-            name: '续费',
-            type: 'line',
-            data: [125,568,25,36,784,56],
-            symbol:'none',
-            lineStyle: {
-                normal: {
-                    width: 2,
-                    color: {
-                        type: 'linear',
-
-                        colorStops: [{
-                                offset: 0,
-                                color: '#F6D06F' // 0% 处的颜色
-                            },
-                            {
-                                offset: 0.4,
-                                color: '#F9A589' // 100% 处的颜色
-                            }, {
-                                offset: 1,
-                                color: '#F9A589' // 100% 处的颜色
-                            }
-                        ],
-                        globalCoord: false // 缺省为 false
-                    },
-                    shadowColor: 'rgba(249,165,137, 0.5)',
-                    shadowBlur: 5,
-                    shadowOffsetY: 7
-                }
-            },
-            itemStyle: {
-                normal: {
-                    color: '#F6D06F',
-                    borderWidth: 3,
-                    /*shadowColor: 'rgba(72,216,191, 0.3)',
-                     shadowBlur: 100,*/
-                    borderColor: "#F6D06F"
+                    borderColor: "#54CDF6"
                 }
             },
             smooth: true

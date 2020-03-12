@@ -1,7 +1,7 @@
 import echarts from 'echarts'
 const option = {
     xAxis: {
-        data: ['涉恐人员', '涉稳人员', '涉毒人员', '在逃人员', '刑事犯罪\n前科、劣迹人员', '肇事肇祸\n精神病人', '重点上访\n人员'],
+        data: [],
         axisLine: {
             lineStyle: {
                 color: '#B7B9C2'
@@ -12,21 +12,12 @@ const option = {
             fontSize: 14
         }
     },
-    // grid: {
-    //     top: 'middle',
-    //     left: '1%',
-    //     right: '1%',
-    //     bottom: '2%',
-    //     height: '90%',
-    //     containLabel: true
-    // },
+    tooltip:{
+        trigger:'axis'
+    },
     yAxis: {
-        name: "（人）",
-        nameTextStyle: {
-            color: '#B7B9C2',
-            fontSize: 16
-        },
         axisLine: {
+            show:false,
             lineStyle: {
                 color: '#B7B9C2'
             }
@@ -41,8 +32,9 @@ const option = {
                 color: '#B7B9C2'
             }
         },
-        interval:500,
-        max:5000
+        axisTick:{
+            show:false
+        }
 
     },
     series: [{

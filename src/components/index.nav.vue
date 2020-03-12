@@ -1,7 +1,7 @@
 <template>
   <div class="mu-container">
     <el-menu
-      default-active="2"
+      :default-active="indexNav"
       class="el-menu-nav"
       @open="handleOpen"
       @close="handleClose"
@@ -39,7 +39,13 @@
 </template>
 
 <script>
+import utils from '../util/util.js';
 export default {
+  data(){
+    return {
+      indexNav:'2'
+    }
+  },
   methods: {
     handleOpen() {},
     handleClose() {},
@@ -49,6 +55,13 @@ export default {
     toProperty(){
       this.$router.push('/index/property')
     }
+  },
+  watch:{
+    indexNav(ind){
+      utils.sessionSetStore('routerindex', ind)
+    }
+  },
+  mounted(){
   }
 };
 </script>
