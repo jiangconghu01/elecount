@@ -41,36 +41,34 @@
 <script>
 import utils from '../util/util.js';
 export default {
-  data(){
-    return {
-      indexNav:'2'
-    }
-  },
-  created(){
-    const routerMap ={
-      '/index/detail':'2',
-      '/index/property':'3'
-    }
-    this.indexNav = routerMap[this.$router.history.current.path]
-  },
-  methods: {
-    handleOpen() {},
-    handleClose() {},
-    toHome(){
-      this.$router.push('/index/detail')
+    data() {
+        return {
+            'indexNav': '2'
+        };
     },
-    toProperty(){
-      this.$router.push('/index/property')
-    }
-  },
-  watch:{
-    indexNav(ind){
-      utils.sessionSetStore('routerindex', ind)
-    }
-  },
-  mounted(){
-    
-  }
+    created() {
+        const routerMap = {
+            '/index/detail': '2',
+            '/index/property': '3'
+        };
+        this.indexNav = routerMap[this.$router.history.current.path];
+    },
+    'methods': {
+        handleOpen() {},
+        handleClose() {},
+        toHome() {
+            this.$router.push('/index/detail');
+        },
+        toProperty() {
+            this.$router.push('/index/property');
+        }
+    },
+    'watch': {
+        indexNav(ind) {
+            utils.sessionSetStore('routerindex', ind);
+        }
+    },
+    mounted() {}
 };
 </script>
 
@@ -83,7 +81,7 @@ export default {
     height: 100%;
     .log {
       font-size: 20px;
-      height: 100px;
+      height: 80px;
       display: flex;
       align-items: center;
       // justify-content: center;

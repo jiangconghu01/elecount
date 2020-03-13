@@ -30,7 +30,6 @@
 }
 </style>
 <script>
-
 import userSort from "@/components/index.sort.vue";
 import indexInfor from "@/components/index.infor.vue";
 
@@ -39,14 +38,8 @@ export default {
     userSort,
     indexInfor
   },
-  computed: {
-
-  },
-  methods:{
-
-  },
-  mounted () {
-
-  },
+  computed: {},
+  methods: {},
+  mounted() {}
 };
 </script>

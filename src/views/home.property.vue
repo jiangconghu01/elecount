@@ -1,13 +1,7 @@
-<template>
+ <template>
   <div class="detail">
     <div class="form">
-      <el-form
-        :inline="true"
-        :model="formInput"
-        class="form-inline"
-        label-width="70px"
-        size="mini"
-      >
+      <el-form :inline="true" :model="formInput" class="form-inline" label-width="70px" size="mini">
         <el-form-item label="大仪编码">
           <el-input v-model="formInput.gs1Code" placeholder="大仪编码"></el-input>
         </el-form-item>
@@ -67,9 +61,9 @@
       <el-table
         :data="tableData"
         height="500"
-        style="width: 100%" 
-        size = "mini"
-        :row-class-name="tableRowClassName" 
+        style="width: 100%"
+        size="mini"
+        :row-class-name="tableRowClassName"
         id="data_table"
       >
         <el-table-column prop="name" label="资产名称"></el-table-column>
@@ -77,45 +71,52 @@
         <el-table-column prop="department" label="管理部门"></el-table-column>
         <el-table-column prop="address" label="资产地址"></el-table-column>
         <el-table-column prop="worth" label="资产价值" min-width="120"></el-table-column>
-        <el-table-column prop="isOnline" label="运行监控" :formatter="formatRunStatus">
-        </el-table-column>
-        <el-table-column prop="isFault" label="故障状态" min-width="80" :formatter="(row)=>{return row.isFault?'故障':row.isFault == 0?'正常':'无数据'}">
-        </el-table-column>
-        <el-table-column label="操作" min-width="160">
+        <el-table-column prop="isOnline" label="运行监控" :formatter="formatRunStatus"></el-table-column>
+        <el-table-column
+          prop="isFault"
+          label="故障状态"
+          min-width="80"
+          :formatter="(row)=>{return row.isFault?'故障':row.isFault == 0?'正常':'无数据'}"
+        ></el-table-column>
+        <el-table-column label="操作" min-width="100">
           <template slot-scope="scope">
-            <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)"
-              >详情</el-button
-            >
-            <el-button
-              size="mini"
-              type="primary"
-              @click="handleRun(scope.$index, scope.row)"
-              >巡检</el-button
-            >
+            <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)">详情</el-button>
+            <!-- <el-button size="mini" type="primary" @click="handleRun(scope.$index, scope.row)">巡检</el-button> -->
           </template>
         </el-table-column>
       </el-table>
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[10, 20, 30, 40,50]"
-            :page-size="20"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="totalNum">
-          </el-pagination>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[10, 20, 30, 40,50]"
+        :page-size="20"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalNum"
+      ></el-pagination>
     </div>
-    <el-dialog title="" :visible.sync="dialogFormVisible" width="68%">
+    <el-dialog title :visible.sync="dialogFormVisible" width="68%">
       <div class="dialog-title">
-        <div class="dialog-nav"  v-show="dialogCurrent != 'big-page'">
-          <div class="worth-detail" :class="{current:dialogCurrent == 'detail'}" @click="handleSelectDetail">资产详情</div>
-          <div class="run-data" :class="{current:dialogCurrent == 'rundata'}" @click="handleSelectRunda">运行数据</div>
+        <div class="dialog-nav" v-show="dialogCurrent != 'big-page'">
+          <div
+            class="worth-detail"
+            :class="{current:dialogCurrent == 'detail'}"
+            @click="handleSelectDetail"
+          >资产详情</div>
+          <div
+            class="run-data"
+            :class="{current:dialogCurrent == 'rundata'}"
+            @click="handleSelectRunda"
+          >运行数据</div>
         </div>
-        <div class="big-page" v-show="dialogCurrent == 'big-page'">
-          分页大图
-        </div>
+        <div class="big-page" v-show="dialogCurrent == 'big-page'">分页大图</div>
       </div>
-      <component :is="currentComponent" :rowdata="currentRow" :charttype="bigtype" @handleClick="changeType"></component>
+      <component
+        :is="currentComponent"
+        :rowdata="currentRow"
+        :charttype="bigtype"
+        @handleClick="changeType"
+      ></component>
     </el-dialog>
   </div>
 </template>
@@ -124,145 +125,156 @@
 import worthDetail from '@/components/property.detail.vue';
 import worthRundata from '@/components/property.rundata.vue';
 import bigChart from '@/components/property.bigpage.vue';
-import { mapGetters } from "vuex";
-import U from '../util/util.js'
+import { mapGetters } from 'vuex';
+import U from '../util/util.js';
 export default {
-  data() {
-    return {
-      dialogFormVisible: false,
-      currentComponent:'worthDetail',
-      formLabelWidth: "120px",
-      formInput: {
-        gs1Code:'',
-        assetId:'',
-        name:'',
-        imei:''
-      },
-      formSelect: {
-        site:'',
-        isStart:'',
-        isOnline:'',
-        isFault:''
-      },
-      tableData: [],
-      totalNum:0,
-      currentPage:1,
-      pageSize:20,
-      dialogCurrent:'detail',
-      bigtype:'',
-      currentRow:{},
-      siteArr:[]
-    };
-  },
-  created(){
-    this.getWorthData();
-    this.getSiteData();
-  },
-  components: {
-    worthDetail,
-    worthRundata,
-    bigChart
-  },
+    data() {
+        return {
+            'dialogFormVisible': false,
+            'currentComponent': 'worthDetail',
+            'formLabelWidth': '120px',
+            'formInput': {
+                'gs1Code': '',
+                'assetId': '',
+                'name': '',
+                'imei': ''
+            },
+            'formSelect': {
+                'site': '',
+                'isStart': '',
+                'isOnline': '',
+                'isFault': ''
+            },
+            'tableData': [],
+            'totalNum': 0,
+            'currentPage': 1,
+            'pageSize': 20,
+            'dialogCurrent': 'detail',
+            'bigtype': '',
+            'currentRow': {},
+            'siteArr': []
+        };
+    },
+    created() {
+        this.getWorthData();
+        this.getSiteData();
+    },
+    'components': {
+        worthDetail,
+        worthRundata,
+        bigChart
+    },
 
-  computed: {
-    ...mapGetters({
-      currentSchool: "school"
-    }),
-  },
+    'computed': {
+        ...mapGetters({
+            'currentSchool': 'school'
+        })
+    },
 
-  mounted() {},
+    mounted() {
+        console.log(this.currentSchool);
+    },
 
-  methods: {
-    formatCodeInfor(row){
-      return `
+    'methods': {
+        formatCodeInfor(row) {
+            return `
       资产编码：${row.assetId}
       大仪编码：${row.gs1Code}
-      IMER编码：${row.imei}
-      `
-    },
-    formatRunStatus(row){
-      return `
-      运行状态：${row.isStart == 1 ?'开机':'关机'}
-      在线状态：${row.isOnline == 1 ? '在线':'离线'}
+      IMEI编码：${row.imei}
+      `;
+        },
+        formatRunStatus(row) {
+            return `
+      运行状态：${row.isStart == 1 ? '开机' : '关机'}
+      在线状态：${row.isOnline == 1 ? '在线' : '离线'}
       最近上报：${row.lastReportTime}
-      `
-    },
-    getSiteData(){
-      this.$http.get("/api/asset/"+this.currentSchool).then((d) => {
-          const source  = d.data.data;
-          this.siteArr = source;
-      })
-    },
-    getWorthData(){
-      const param = {
-        pageNo:this.currentPage,
-        pageSize:this.pageSize
-      };
-      this.$http.get("/api/asset/page",{...param,...this.formInput,...this.formSelect}).then(d => {
-        const source =  d.data.data
-        this.tableData = source.records;
-        this.totalNum = source.total;
-      })
-    },
-    handleSizeChange(val) {
-      this.pageSize = val;
-      this.getWorthData();
-    },
-    handleCurrentChange(val) {
-        this.currentPage = val;
-        this.getWorthData();
-    },
-    tableRowClassName({ row, rowIndex }) {
-      if (rowIndex % 2 == 0) {
-        return "warning-row";
-      } else {
-        return "success-row";
-      }
-      return "";
-    },
-    handleEdit(index, row) {
-      this.dialogFormVisible = true;
-      this.currentRow = row;
-      this.dialogCurrent = 'detail';
-      this.currentComponent = 'worthDetail';
-    },
-    handleRun(index, row) {
-      console.log(index, row);
-    },
-    handleSelectDetail() {
-      this.dialogCurrent = 'detail';
-      this.currentComponent = 'worthDetail';
-    },
-    handleSelectRunda() {
-      this.dialogCurrent = 'rundata';
-      this.currentComponent = 'worthRundata';
-    },
-    changeType(val){
-      this.bigtype = val;
-      this.dialogCurrent = 'bigpage';
-      this.currentComponent = 'bigChart';
-    },
-    search(){
-      this.getWorthData();
-    },
-    resetSearch(){
-      this.formInput={
-        gs1Code:'',
-        assetId:'',
-        name:'',
-        imei:''
-      }
-      this.formSelect={
-        site:'',
-        isStart:'',
-        isOnline:'',
-        isFault:''
-      }
-    },
-    exportExcel() {
-      U.xlsxExport.exportXlsx([{name:'xxx',data:this.tableData}],'表格数据')
+      `;
+        },
+        getSiteData() {
+            this.$http.get('/api/asset/' + this.currentSchool).then(d => {
+                const source = d.data.data;
+                this.siteArr = source;
+            });
+        },
+        getWorthData() {
+            const param = {
+                'pageNo': this.currentPage,
+                'pageSize': this.pageSize,
+                'school': this.currentSchool
+            };
+            this.$http
+                .get('/api/asset/page', {
+                    ...param,
+                    ...this.formInput,
+                    ...this.formSelect
+                })
+                .then(d => {
+                    const source = d.data.data;
+                    this.tableData = source.records;
+                    this.totalNum = source.total;
+                });
+        },
+        handleSizeChange(val) {
+            this.pageSize = val;
+            this.getWorthData();
+        },
+        handleCurrentChange(val) {
+            this.currentPage = val;
+            this.getWorthData();
+        },
+        tableRowClassName({ rowIndex }) {
+            if (rowIndex % 2 == 0) {
+                return 'warning-row';
+            }
+            return 'success-row';
+
+        },
+        handleEdit(index, row) {
+            this.dialogFormVisible = true;
+            this.currentRow = row;
+            this.dialogCurrent = 'detail';
+            this.currentComponent = 'worthDetail';
+        },
+        // handleRun(index, row) {
+        //   console.log(index, row);
+        // },
+        handleSelectDetail() {
+            this.dialogCurrent = 'detail';
+            this.currentComponent = 'worthDetail';
+        },
+        handleSelectRunda() {
+            this.dialogCurrent = 'rundata';
+            this.currentComponent = 'worthRundata';
+        },
+        changeType(val) {
+            this.bigtype = val;
+            this.dialogCurrent = 'bigpage';
+            this.currentComponent = 'bigChart';
+        },
+        search() {
+            this.getWorthData();
+        },
+        resetSearch() {
+            this.formInput = {
+                'gs1Code': '',
+                'assetId': '',
+                'name': '',
+                'imei': ''
+            };
+            this.formSelect = {
+                'site': '',
+                'isStart': '',
+                'isOnline': '',
+                'isFault': ''
+            };
+        },
+        exportExcel() {
+            U.xlsxExport.exportXlsx(
+                [{ 'name': 'xxx', 'data': this.tableData }],
+                '表格数据'
+            );
+        }
     }
-  }
 };
 </script>
 <style lang="scss" scoped>
@@ -289,30 +301,29 @@ export default {
       }
     }
   }
-  .dialog-title{
-    background-color: #2A83D9;
-    color:rgba(255,255,255,0.5);
+  .dialog-title {
+    background-color: #2a83d9;
+    color: rgba(255, 255, 255, 0.5);
   }
-  .dialog-nav{
+  .dialog-nav {
     display: flex;
     width: 180px;
-    &>div{
+    & > div {
       width: 90px;
       height: 36px;
       line-height: 36px;
       cursor: pointer;
-      font-weight:bold;
+      font-weight: bold;
     }
-    .current{
-      color:#fff;
+    .current {
+      color: #fff;
     }
   }
-  .big-page{
+  .big-page {
     height: 36px;
     line-height: 36px;
-    color:#fff;
+    color: #fff;
   }
-
 }
 </style>
 <style>
@@ -333,20 +344,20 @@ export default {
   background-color: #2a82db;
   color: #fff;
 }
-.el-pagination{
+.el-pagination {
   text-align: left;
 }
-.el-table .cell{
+.el-table .cell {
   text-align: center;
 }
-.el-table th>.cell{
+.el-table th > .cell {
   text-align: center;
 }
-.el-dialog__header{
+.el-dialog__header {
   padding: 0;
 }
-.el-dialog__headerbtn{
-  top:10px;
+.el-dialog__headerbtn {
+  top: 10px;
 }
 .el-table .cell {
   white-space: pre-line;
