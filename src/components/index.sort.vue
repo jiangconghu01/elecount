@@ -41,6 +41,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import U from '../util/util.js';
 export default {
     data() {
         return {
@@ -77,7 +78,7 @@ export default {
         },
         getSortData() {
             const data = {
-                'school': this.currentSchool,
+                'school':  U.sessionGetStore('schoolId'),
                 'date': '2020-03-01',
                 'orderBy': 1, //排序类型 1-运行时长 2-待机时长 3-断电时长
                 'isDesc': this.current == 'most' ? 1 : 0, //是否倒序 0-正序 1-倒序

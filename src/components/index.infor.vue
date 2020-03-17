@@ -50,6 +50,7 @@
 <script>
 import bar_status_config from '../chartconfig/bar_status_config';
 import line_statistics_config from '../chartconfig/line_statitics_config';
+import U from '../util/util.js';
 import { mapGetters } from 'vuex';
 export default {
     data() {
@@ -78,7 +79,7 @@ export default {
         },
         getStatusData() {
             this.$http
-                .get('/api/statis/asset/home', { 'school': this.currentSchool })
+                .get('/api/statis/asset/home', { 'school': U.sessionGetStore('schoolId') })
                 .then(d => {
                     const source = d.data.data;
                     this.ajaxData = source;
@@ -122,7 +123,7 @@ export default {
         },
         getStatisticsData() {
             this.$http
-                .get('/api/statis/asset/school', { 'school': this.currentSchool })
+                .get('/api/statis/asset/school', { 'school': U.sessionGetStore('schoolId') })
                 .then(d => {
                     const source = d.data.data;
                     if (source.length) {

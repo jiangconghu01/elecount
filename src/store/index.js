@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import utils from '../util/util.js';
 
 Vue.use(Vuex);
 const state = {

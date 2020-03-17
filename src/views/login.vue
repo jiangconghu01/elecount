@@ -111,9 +111,8 @@ export default {
                         return;
                     }
                     utils.sessionSetStore('userId', response.data.id);
+                    utils.sessionSetStore('schoolId', response.data.schoolId);
                     utils.sessionSetStore('userName', response.data.name);
-                    this.setUserInfor(response.data);
-                    response.data.schoolId && this.setSchool(response.data.schoolId);
                     this.$router.push({
                         'path': '/index'
                     });

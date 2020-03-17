@@ -60,7 +60,7 @@
     <div class="table">
       <el-table
         :data="tableData"
-        height="500"
+        height="calc(100% - 60px)"
         style="width: 100%"
         size="mini"
         :row-class-name="tableRowClassName"
@@ -191,7 +191,7 @@ export default {
       `;
         },
         getSiteData() {
-            this.$http.get('/api/asset/' + this.currentSchool).then(d => {
+            this.$http.get('/api/asset/' + U.sessionGetStore('schoolId')).then(d => {
                 const source = d.data.data;
                 this.siteArr = source;
             });
@@ -200,7 +200,7 @@ export default {
             const param = {
                 'pageNo': this.currentPage,
                 'pageSize': this.pageSize,
-                'school': this.currentSchool
+                'school':  U.sessionGetStore('schoolId')
             };
             this.$http
                 .get('/api/asset/page', {
@@ -282,6 +282,9 @@ export default {
   flex: 1;
   height: 100%;
   background-color: #f1f2f6;
+      display: flex;
+    flex-direction: column;
+    height: calc(100% - 30px);
   .form {
     // height: 170px;
     padding-top: 20px;
@@ -295,6 +298,8 @@ export default {
   .table {
     width: 98%;
     padding-top: 20px;
+    flex: 1;
+    overflow-y: auto;
     thead {
       th {
         background-color: #2a82db;
