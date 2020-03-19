@@ -122,11 +122,11 @@
 </template>
 
 <script>
-import worthDetail from '@/components/property.detail.vue';
-import worthRundata from '@/components/property.rundata.vue';
-import bigChart from '@/components/property.bigpage.vue';
-import { mapGetters } from 'vuex';
-import U from '../util/util.js';
+import worthDetail from '@/components/property.detail.vue'
+import worthRundata from '@/components/property.rundata.vue'
+import bigChart from '@/components/property.bigpage.vue'
+import { mapGetters } from 'vuex'
+import U from '../util/util.js'
 export default {
     data() {
         return {
@@ -153,11 +153,11 @@ export default {
             'bigtype': '',
             'currentRow': {},
             'siteArr': []
-        };
+        }
     },
     created() {
-        this.getWorthData();
-        this.getSiteData();
+        this.getWorthData()
+        this.getSiteData()
     },
     'components': {
         worthDetail,
@@ -172,7 +172,7 @@ export default {
     },
 
     mounted() {
-        console.log(this.currentSchool);
+        console.log(this.currentSchool)
     },
 
     'methods': {
@@ -181,27 +181,27 @@ export default {
       资产编码：${row.assetId}
       大仪编码：${row.gs1Code}
       IMEI编码：${row.imei}
-      `;
+      `
         },
         formatRunStatus(row) {
             return `
       运行状态：${row.isStart == 1 ? '开机' : '关机'}
       在线状态：${row.isOnline == 1 ? '在线' : '离线'}
       最近上报：${row.lastReportTime}
-      `;
+      `
         },
         getSiteData() {
             this.$http.get('/api/asset/' + U.sessionGetStore('schoolId')).then(d => {
-                const source = d.data.data;
-                this.siteArr = source;
-            });
+                const source = d.data.data
+                this.siteArr = source
+            })
         },
         getWorthData() {
             const param = {
                 'pageNo': this.currentPage,
                 'pageSize': this.pageSize,
                 'school':  U.sessionGetStore('schoolId')
-            };
+            }
             this.$http
                 .get('/api/asset/page', {
                     ...param,
@@ -209,50 +209,50 @@ export default {
                     ...this.formSelect
                 })
                 .then(d => {
-                    const source = d.data.data;
-                    this.tableData = source.records;
-                    this.totalNum = source.total;
-                });
+                    const source = d.data.data
+                    this.tableData = source.records
+                    this.totalNum = source.total
+                })
         },
         handleSizeChange(val) {
-            this.pageSize = val;
-            this.getWorthData();
+            this.pageSize = val
+            this.getWorthData()
         },
         handleCurrentChange(val) {
-            this.currentPage = val;
-            this.getWorthData();
+            this.currentPage = val
+            this.getWorthData()
         },
         tableRowClassName({ rowIndex }) {
             if (rowIndex % 2 == 0) {
-                return 'warning-row';
+                return 'warning-row'
             }
-            return 'success-row';
+            return 'success-row'
 
         },
         handleEdit(index, row) {
-            this.dialogFormVisible = true;
-            this.currentRow = row;
-            this.dialogCurrent = 'detail';
-            this.currentComponent = 'worthDetail';
+            this.dialogFormVisible = true
+            this.currentRow = row
+            this.dialogCurrent = 'detail'
+            this.currentComponent = 'worthDetail'
         },
         // handleRun(index, row) {
         //   console.log(index, row);
         // },
         handleSelectDetail() {
-            this.dialogCurrent = 'detail';
-            this.currentComponent = 'worthDetail';
+            this.dialogCurrent = 'detail'
+            this.currentComponent = 'worthDetail'
         },
         handleSelectRunda() {
-            this.dialogCurrent = 'rundata';
-            this.currentComponent = 'worthRundata';
+            this.dialogCurrent = 'rundata'
+            this.currentComponent = 'worthRundata'
         },
         changeType(val) {
-            this.bigtype = val;
-            this.dialogCurrent = 'bigpage';
-            this.currentComponent = 'bigChart';
+            this.bigtype = val
+            this.dialogCurrent = 'bigpage'
+            this.currentComponent = 'bigChart'
         },
         search() {
-            this.getWorthData();
+            this.getWorthData()
         },
         resetSearch() {
             this.formInput = {
@@ -260,22 +260,22 @@ export default {
                 'assetId': '',
                 'name': '',
                 'imei': ''
-            };
+            }
             this.formSelect = {
                 'site': '',
                 'isStart': '',
                 'isOnline': '',
                 'isFault': ''
-            };
+            }
         },
         exportExcel() {
             U.xlsxExport.exportXlsx(
                 [{ 'name': 'xxx', 'data': this.tableData }],
                 '表格数据'
-            );
+            )
         }
     }
-};
+}
 </script>
 <style lang="scss" scoped>
 .detail {

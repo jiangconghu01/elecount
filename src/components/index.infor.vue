@@ -11,7 +11,7 @@
         @click="setDistribute()"
       >
         <span>设备分布</span>
-        <img src="../assets/images/top_nav2.png" />
+        <img src="../assets/images/top_nav2.png"/>
       </div>
       <div
         class="item statistics"
@@ -32,7 +32,7 @@
           </li>
           <li>
             <img src="../assets/images/legend2.png" />
-            <span style="color:#6588C5">{{ ajaxData.waitNum ? ajaxData.waitNum : 0 }}台待机</span>
+            <span style="color:#6588C5">{{ajaxData.waitNum ? ajaxData.waitNum : 0}}台待机</span>
           </li>
           <li>
             <img src="../assets/images/legend3.png" />

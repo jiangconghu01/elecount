@@ -39,37 +39,37 @@
 </template>
 
 <script>
-import utils from '../util/util.js';
+import utils from '../util/util.js'
 export default {
     data() {
         return {
             'indexNav': '2'
-        };
+        }
     },
     created() {
         const routerMap = {
             '/index/detail': '2',
             '/index/property': '3'
-        };
-        this.indexNav = routerMap[this.$router.history.current.path];
+        }
+        this.indexNav = routerMap[this.$router.history.current.path]
     },
     'methods': {
         handleOpen() {},
         handleClose() {},
         toHome() {
-            this.$router.push('/index/detail');
+            this.$router.push('/index/detail')
         },
         toProperty() {
-            this.$router.push('/index/property');
+            this.$router.push('/index/property')
         }
     },
     'watch': {
         indexNav(ind) {
-            utils.sessionSetStore('routerindex', ind);
+            utils.sessionSetStore('routerindex', ind)
         }
     },
     mounted() {}
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
