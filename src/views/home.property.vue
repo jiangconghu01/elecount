@@ -176,6 +176,20 @@ export default {
     },
 
     'methods': {
+        formatDate(timestamp){
+            const date = new Date(timestamp);
+            let Y = date.getFullYear() + '-';
+            let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+            let D = date.getDate();
+            D= (D>9?D:'0'+D)+' '
+            let h = date.getHours()
+            h= (h>9?h:'0'+h)+ ':';
+            let m = date.getMinutes();
+            m = (m>9?m:'0'+m)+ ':';
+            let s = date.getSeconds();
+            s = s>9?s:'0'+s;
+            return Y+M+D+h+m+s;
+        },
         formatCodeInfor(row) {
             return `
       资产编码：${row.assetId}
@@ -187,7 +201,7 @@ export default {
             return `
       运行状态：${row.isStart == 1 ? '开机' : '关机'}
       在线状态：${row.isOnline == 1 ? '在线' : '离线'}
-      最近上报：${row.lastReportTime}
+      最近上报：${row.lastReportTime == 0 ? '0':this.formatDate(row.lastReportTime)}
       `
         },
         getSiteData() {
