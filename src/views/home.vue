@@ -66,7 +66,7 @@
 </style>
 <script>
 // @ is an alias to /src
-import muNav from '@/components/index.nav.vue';
+import muNav from '@/components/detail.nav.vue';
 import utils from '../util/util.js';
 // import userSort from "@/components/index.sort.vue";
 // import indexInfor from "@/components/index.infor.vue";

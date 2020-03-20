@@ -30,8 +30,8 @@
 }
 </style>
 <script>
-import userSort from '@/components/index.sort.vue'
-import indexInfor from '@/components/index.infor.vue'
+import userSort from '@/components/detail.sort.vue'
+import indexInfor from '@/components/detail.infor.vue'
 
 export default {
     'components': {
